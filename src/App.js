@@ -14,7 +14,6 @@ fcl.config()
   .put("app.detail.icon", "https://s3.coinmarketcap.com/static-gravity/image/c5a26d43bc024c87894f5bb9971229a0.png")
   .put("accessNode.api", "https://rest-testnet.onflow.org")
   .put("discovery.wallet", "https://fcl-discovery.onflow.org/testnet/authn")
-// .put("0xFlowToken", "0x6b99a38d92926fc6")
 
 function App() {
   const [user, setUser] = useState();
@@ -32,16 +31,21 @@ function App() {
   const [allowedVoter, setAllowedVoter] = useState('');
 
   useEffect(() => {
-    fcl.currentUser().subscribe(setUser);
     fetchPolls();
   }, []);
 
   const fetchPolls = async () => {
-    const allPolls = await getAllPolls();
-    setPolls(allPolls);
-    const activePolls = await getActivePolls();
-    setActivePolls(activePolls);
+    try {
+      const allPolls = await getAllPolls();
+      setPolls(Array.isArray(allPolls) ? allPolls : []); // Ensure allPolls is an array
+      
+      const activePolls = await getActivePolls();
+      setActivePolls(Array.isArray(activePolls) ? activePolls : []); // Ensure activePolls is an array
+    } catch (error) {
+      console.error("Error fetching polls:", error);
+    }
   };
+  
   
   const handleCreateNewPoll = async () => {
     await createNewPoll(newPollTitle, newPollOptions, newPollColor, newPollStartedAt, newPollEndedAt, newPollRestricted);
@@ -104,28 +108,28 @@ function App() {
       {/* Display Polls */}
       <div>
         <h3>Polls</h3>
-        <ul>
+        <div>
           {polls.map((poll) => (
-            <li key={poll.id}>
+            <div key={poll.id}>
               <span>{poll.title}</span>
               <button onClick={() => setSelectedPoll(poll)}>View Details</button>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
 
       {/* Display Active Polls */}
       <div>
         <h3>Active Polls</h3>
-        
-        <ul>
+
+        <div>
           {activePolls.map((poll) => (
-            <li key={poll.id}>
+            <div key={poll.id}>
               <span>{poll.title}</span>
               <button onClick={() => setSelectedPoll(poll)}>View Details</button>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
 
       {/* Poll Detail */}
