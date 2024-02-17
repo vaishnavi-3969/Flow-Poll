@@ -1,14 +1,14 @@
 import * as fcl from "@onflow/fcl";
 
 const CREATE_NEW_POLL = `
-import FlowPoll from 0xFlowPoll
+import Flowpoll from 0xFlowpoll
 transaction (title: String, options: [String], color: String, startedAt: UFix64, endedAt: UFix64, isRestricted: Bool) {
 	let createdBy: Address
 	prepare(acct: AuthAccount) {
 		self.createdBy = acct.address
 	}
 	execute {
-		FlowPoll.createPoll(createdBy: self.createdBy, title: title, options: options, color: color, startedAt: startedAt, endedAt: endedAt, isRestricted: isRestricted)
+		Flowpoll.createPoll(createdBy: self.createdBy, title: title, options: options, color: color, startedAt: startedAt, endedAt: endedAt, isRestricted: isRestricted)
 	}
 }`;
 
@@ -31,14 +31,14 @@ export async function createNewPoll(title, options, color, startedAt, endedAt, i
 }
 
 const VOTE_POLL = `
-import FlowPoll from 0xFlowPoll
+import Flowpoll from 0xFlowpoll
 transaction (pollId: UInt64, option: String) {
 	let voter: Address
 	prepare(acct: AuthAccount) {
 		self.voter = acct.address
 	}
 	execute {
-		FlowPoll.vote(pollId: pollId, option: option, voter: self.voter)
+		Flowpoll.vote(pollId: pollId, option: option, voter: self.voter)
 	}
 }`;
 
@@ -57,20 +57,20 @@ export async function votePoll(pollId, option) {
 }
 
 const ADD_ALLOWED_VOTERS = `
-import FlowPoll from 0xFlowPoll
+import Flowpoll from 0xFlowpoll
 transaction (pollId: UInt64, voter: Address) {
   let voter: Address
 	prepare(acct: AuthAccount) {
 		self.voter = acct.address
 	}
 	execute {
-		let poll = FlowPoll.polls[pollId] ?? panic("Poll not found")
+		let poll = Flowpoll.polls[pollId] ?? panic("Poll not found")
     
     if poll.createdBy != self.voter {
       panic("Only creator can add allowed voters")
     }
 
-    FlowPoll.addAllowedVoters(pollId: pollId, voter: voter)
+    Flowpoll.addAllowedVoters(pollId: pollId, voter: voter)
 	}
 }`;
 

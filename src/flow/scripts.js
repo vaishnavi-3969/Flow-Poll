@@ -2,9 +2,9 @@ import * as fcl from "@onflow/fcl";
 import * as t from "@onflow/types";
 
 const GET_ALL_POLLS = `
-import FlowPoll from 0xFlowPoll
-pub fun main(): {UInt64: FlowPoll.Poll} {
-  return FlowPoll.polls
+import Flowpoll from 0xFlowpoll
+pub fun main(): {UInt64: Flowpoll.Poll} {
+  return Flowpoll.polls
 }`;
 
 export async function getAllPolls() {
@@ -13,9 +13,9 @@ export async function getAllPolls() {
 }
 
 const GET_ACTIVE_POLLS = `
-import FlowPoll from 0xFlowPoll
-pub fun main(): {UInt64: FlowPoll.Poll} {
-  return FlowPoll.getActivePolls()
+import Flowpoll from 0xFlowpoll
+pub fun main(): {UInt64: Flowpoll.Poll} {
+  return Flowpoll.getActivePolls()
 }`;
 
 export async function getActivePolls() {
@@ -24,9 +24,9 @@ export async function getActivePolls() {
 }
 
 const GET_DETAIL_POLL = `
-import FlowPoll from 0xFlowPoll
-pub fun main(pollId: UInt64): FlowPoll.Poll {
-  let polls = FlowPoll.polls
+import Flowpoll from 0xFlowpoll
+pub fun main(pollId: UInt64): Flowpoll.Poll {
+  let polls = Flowpoll.polls
   return polls[pollId] ?? panic("Poll not found")
 }`;
 
@@ -39,9 +39,9 @@ export async function getDetailPoll(pollId) {
 }
 
 const GET_POLL_RESULT = `
-import FlowPoll from 0xFlowPoll
+import Flowpoll from 0xFlowpoll
 pub fun main(pollId: UInt64): {String: UInt64} {
-  return FlowPoll.getPollResult(pollId: pollId)
+  return Flowpoll.getPollResult(pollId: pollId)
 }`;
 
 export async function getPollResult(pollId) {
