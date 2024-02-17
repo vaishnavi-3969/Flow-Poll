@@ -1,0 +1,21 @@
+{
+	"networks": {
+		"emulator": "127.0.0.1:3569",
+		"mainnet": "access.mainnet.nodes.onflow.org:9000",
+		"testing": "127.0.0.1:3569",
+		"testnet": "access.devnet.nodes.onflow.org:9000"
+	},
+	"accounts": {
+		"emulator-account": {
+			"address": "f8d6e0586b0a20c7",
+			"key": "8826ace88ed5be88071c8507844d0a26969105a8010b8d7d34df6b776e920762"
+		},
+		"test": {
+			"address": "375a5147cd521f68",
+			"key": {
+				"type": "file",
+				"location": "test.pkey"
+			}
+		}
+	}
+}
