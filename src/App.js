@@ -117,6 +117,7 @@ function App() {
       {/* Display Active Polls */}
       <div>
         <h3>Active Polls</h3>
+        
         <ul>
           {activePolls.map((poll) => (
             <li key={poll.id}>

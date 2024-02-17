@@ -2,7 +2,7 @@ import * as fcl from "@onflow/fcl";
 import * as t from "@onflow/types";
 
 const GET_ALL_POLLS = `
-import Flowpoll from 0xFlowpoll
+import Flowpoll from 0x23c4b8d22772d1a5
 pub fun main(): {UInt64: Flowpoll.Poll} {
   return Flowpoll.polls
 }`;
@@ -13,7 +13,7 @@ export async function getAllPolls() {
 }
 
 const GET_ACTIVE_POLLS = `
-import Flowpoll from 0xFlowpoll
+import Flowpoll from 0x23c4b8d22772d1a5
 pub fun main(): {UInt64: Flowpoll.Poll} {
   return Flowpoll.getActivePolls()
 }`;
@@ -24,7 +24,7 @@ export async function getActivePolls() {
 }
 
 const GET_DETAIL_POLL = `
-import Flowpoll from 0xFlowpoll
+import Flowpoll from 0x23c4b8d22772d1a5
 pub fun main(pollId: UInt64): Flowpoll.Poll {
   let polls = Flowpoll.polls
   return polls[pollId] ?? panic("Poll not found")
@@ -39,7 +39,7 @@ export async function getDetailPoll(pollId) {
 }
 
 const GET_POLL_RESULT = `
-import Flowpoll from 0xFlowpoll
+import Flowpoll from 0x23c4b8d22772d1a5
 pub fun main(pollId: UInt64): {String: UInt64} {
   return Flowpoll.getPollResult(pollId: pollId)
 }`;

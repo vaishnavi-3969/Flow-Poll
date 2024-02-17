@@ -1,37 +1,48 @@
 import * as fcl from "@onflow/fcl";
 
 const CREATE_NEW_POLL = `
-import Flowpoll from 0xFlowpoll
-transaction (title: String, options: [String], color: String, startedAt: UFix64, endedAt: UFix64, isRestricted: Bool) {
-	let createdBy: Address
-	prepare(acct: AuthAccount) {
-		self.createdBy = acct.address
-	}
-	execute {
-		Flowpoll.createPoll(createdBy: self.createdBy, title: title, options: options, color: color, startedAt: startedAt, endedAt: endedAt, isRestricted: isRestricted)
-	}
+import Flowpoll from 0x23c4b8d22772d1a5
+
+transaction(title: String, options: [String], color: String, startedAt: UFix64, endedAt: UFix64, isRestricted: Bool) {
+    let createdBy: Address
+
+    prepare(acct: AuthAccount) {
+        self.createdBy = acct.address
+    }
+
+    execute {
+        Flowpoll.createPoll(
+            createdBy: self.createdBy,
+            title: title,
+            options: options,
+            color: color,
+            startedAt: startedAt,
+            endedAt: endedAt,
+            isRestricted: isRestricted
+        )
+    }
 }`;
 
 export async function createNewPoll(title, options, color, startedAt, endedAt, isRestricted) {
-  return fcl.mutate({
-    cadence: CREATE_NEW_POLL,
-    args: (arg, t) => [
-      arg(title, t.String),
-      arg(options, t.Array(t.String)),
-      arg(color, t.String),
-      arg(startedAt, t.UFix64),
-      arg(endedAt, t.UFix64),
-      arg(isRestricted, t.Bool),
-    ],
-    payer: fcl.authz,
-    proposer: fcl.authz,
-    authorizations: [fcl.authz],
-    limit: 1000,
-  });
+    return fcl.mutate({
+        cadence: CREATE_NEW_POLL,
+        args: (arg, t) => [
+            arg(title, t.String),
+            arg(options, t.Array(t.String)),
+            arg(color, t.String),
+            arg(startedAt, t.UFix64),
+            arg(endedAt, t.UFix64),
+            arg(isRestricted, t.Bool),
+        ],
+        payer: fcl.authz,
+        proposer: fcl.authz,
+        authorizations: [fcl.authz],
+        limit: 1000,
+    });
 }
 
 const VOTE_POLL = `
-import Flowpoll from 0xFlowpoll
+import Flowpoll from 0x23c4b8d22772d1a5
 transaction (pollId: UInt64, option: String) {
 	let voter: Address
 	prepare(acct: AuthAccount) {
@@ -57,7 +68,7 @@ export async function votePoll(pollId, option) {
 }
 
 const ADD_ALLOWED_VOTERS = `
-import Flowpoll from 0xFlowpoll
+import Flowpoll from 0x23c4b8d22772d1a5
 transaction (pollId: UInt64, voter: Address) {
   let voter: Address
 	prepare(acct: AuthAccount) {
