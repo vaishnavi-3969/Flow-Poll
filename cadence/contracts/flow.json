@@ -1,4 +1,7 @@
 {
+	"contracts": {
+		"Flowpoll": "Flowpoll.cdc"
+	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
 		"mainnet": "access.mainnet.nodes.onflow.org:9000",
@@ -8,14 +11,28 @@
 	"accounts": {
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
-			"key": "8826ace88ed5be88071c8507844d0a26969105a8010b8d7d34df6b776e920762"
+			"key": "9b843fd7665e17017f08e41ca9c59c1c6b619f9ed7edf85378baa801c82ebe07"
 		},
 		"test": {
-			"address": "375a5147cd521f68",
+			"address": "23c4b8d22772d1a5",
 			"key": {
 				"type": "file",
 				"location": "test.pkey"
 			}
+		},
+		"testflow": {
+			"address": "d5073b23705bb327",
+			"key": {
+				"type": "file",
+				"location": "testflow.pkey"
+			}
+		}
+	},
+	"deployments": {
+		"testnet": {
+			"test": [
+				"Flowpoll"
+			]
 		}
 	}
 }

@@ -7,5 +7,5 @@ config({
   "accessNode.api": "https://rest-testnet.onflow.org",
   "discovery.wallet": "https://fcl-discovery.onflow.org/testnet/authn",
   "discovery.authn.endpoint": "https://fcl-discovery.onflow.org/api/testnet/authn",
-  "0xFlowPoll": "0x6ec39faad55341c9",
+  "0xFlowPoll": "0x23c4b8d22772d1a5",
 });
