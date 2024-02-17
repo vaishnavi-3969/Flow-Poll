@@ -38,9 +38,10 @@ function App() {
     try {
       const allPolls = await getAllPolls();
       setPolls(Array.isArray(allPolls) ? allPolls : []);
-      console.log(allPolls)
+      console.log("Fetch polls: ",allPolls)
       const activePolls = await getActivePolls();
       setActivePolls(Array.isArray(activePolls) ? activePolls : []);
+      console.log("Fetch active polls: ",activePolls)
     } catch (error) {
       console.error("Error fetching polls:", error);
     }
@@ -58,6 +59,7 @@ function App() {
     setNewPollStartedAt(0);
     setNewPollEndedAt(0);
     setNewPollRestricted(false);
+    console.log("New poll")
   };
 
   const handleVotePoll = async () => {
@@ -105,6 +107,7 @@ function App() {
     fcl.authenticate();
     fcl.currentUser().subscribe(setUser);
   }
+  
   return (
     <div className="App">
       <h1>Voting App</h1>
@@ -136,7 +139,8 @@ function App() {
         <ul>
           {polls.map((poll) => (
             <li key={poll.id}>
-              <span>{poll.title}</span>
+              <span>Title: {poll.title}</span>
+              <span>Options: {poll.options.join(', ')}</span>
               <button onClick={() => setSelectedPoll(poll)}>View Details</button>
             </li>
           ))}
@@ -149,13 +153,13 @@ function App() {
         <ul>
           {activePolls.map((poll) => (
             <li key={poll.id}>
-              <span>{poll.title}</span>
+              <span>Title: {poll.title}</span>
+              <span>Options: {poll.options.join(', ')}</span>
               <button onClick={() => setSelectedPoll(poll)}>View Details</button>
             </li>
           ))}
         </ul>
       </div>
-
       {/* Poll Detail */}
       {selectedPoll && (
         <div>
