@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import * as fcl from '@onflow/fcl'
-import { 
+import {
   getAllPolls,
   getActivePolls,
   getDetailPoll,
   getPollResult,
 } from './flow/scripts';
-import { createNewPoll,votePoll, addVoter } from './flow/transactions';
+import { createNewPoll, votePoll, addVoter } from './flow/transactions';
 // 0x2734e7cdf8a5b999
 fcl.config()
   .put("app.detail.title", "My Flow NFT DApp")
@@ -37,16 +37,17 @@ function App() {
   const fetchPolls = async () => {
     try {
       const allPolls = await getAllPolls();
-      setPolls(Array.isArray(allPolls) ? allPolls : []); // Ensure allPolls is an array
-      
+      setPolls(Array.isArray(allPolls) ? allPolls : []);
+      console.log(allPolls)
       const activePolls = await getActivePolls();
-      setActivePolls(Array.isArray(activePolls) ? activePolls : []); // Ensure activePolls is an array
+      setActivePolls(Array.isArray(activePolls) ? activePolls : []);
     } catch (error) {
       console.error("Error fetching polls:", error);
     }
   };
-  
-  
+
+
+
   const handleCreateNewPoll = async () => {
     await createNewPoll(newPollTitle, newPollOptions, newPollColor, newPollStartedAt, newPollEndedAt, newPollRestricted);
     fetchPolls();
@@ -66,6 +67,30 @@ function App() {
     setSelectedPoll(updatedPoll);
     const result = await getPollResult(selectedPoll.id);
     setPollResult(result);
+    /*
+    const handleVotePoll = async () => {
+  try {
+    if (!selectedPoll || !votedOption) {
+      console.error("Please select a poll and an option to vote.");
+      return;
+    }
+
+    // Vote for the selected poll with the chosen option
+    await votePoll(selectedPoll.id, votedOption);
+
+    // Refresh the selected poll data after voting
+    const updatedPoll = await getDetailPoll(selectedPoll.id);
+    setSelectedPoll(updatedPoll);
+
+    // Refresh the poll result after voting
+    const result = await getPollResult(selectedPoll.id);
+    setPollResult(result);
+  } catch (error) {
+    console.error("Error voting for the poll:", error);
+  }
+};
+
+    */
   };
 
   const handleAddAllowedVoter = async () => {
@@ -81,7 +106,7 @@ function App() {
     fcl.currentUser().subscribe(setUser);
   }
   return (
-     <div className="App">
+    <div className="App">
       <h1>Voting App</h1>
       <h2>Current Address: {user && user.addr ? user.addr : ''}</h2>
 
@@ -108,28 +133,27 @@ function App() {
       {/* Display Polls */}
       <div>
         <h3>Polls</h3>
-        <div>
+        <ul>
           {polls.map((poll) => (
-            <div key={poll.id}>
+            <li key={poll.id}>
               <span>{poll.title}</span>
               <button onClick={() => setSelectedPoll(poll)}>View Details</button>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
 
       {/* Display Active Polls */}
       <div>
         <h3>Active Polls</h3>
-
-        <div>
+        <ul>
           {activePolls.map((poll) => (
-            <div key={poll.id}>
+            <li key={poll.id}>
               <span>{poll.title}</span>
               <button onClick={() => setSelectedPoll(poll)}>View Details</button>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
 
       {/* Poll Detail */}
