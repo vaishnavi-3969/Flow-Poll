@@ -101,7 +101,9 @@ function App() {
 
   return (
     <div className="App">
-      <h1 className="text-3xl font-bold mb-8">Flow Poll</h1>
+      <div className='justify-center'>
+        <img src='logo.png' height={10} alt='' />
+      </div>
       <h2 className="mb-4">Current Address: {user && user.addr}</h2>
       {!user && <button onClick={logIn} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</button>}
       <UnixTimestamp />
