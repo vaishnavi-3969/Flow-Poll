@@ -98,9 +98,10 @@ function App() {
     fcl.authenticate();
     fcl.currentUser().subscribe(setUser);
   };
-  
+
   return (
     <div className="App bg-gray-100 min-h-screen flex flex-col justify-center items-center py-8">
+    <img src='logo.png' alt='logo' className='w-20 h-20 mb-4 rounded-full' />
       <div className="min-w-md w-full bg-white shadow-md rounded-md p-8">
         <h2 className="text-2xl font-semibold mb-4">Current Address: {user && user.addr}</h2>
         {!user &&
