@@ -129,6 +129,7 @@ function App() {
                 onChange={e => setNewPollOptions(e.target.value)}
                 className="border border-gray-300 rounded-md px-3 py-2 mb-2 w-full"
               />
+              <p>Start Timestamp: </p>
               <input
                 type="number"
                 placeholder="Start Time"
@@ -136,6 +137,7 @@ function App() {
                 onChange={e => setNewPollStartedAt(e.target.value)}
                 className="border border-gray-300 rounded-md px-3 py-2 mb-2 w-full"
               />
+              <p>End Timestamp:</p>
               <input
                 type="number"
                 placeholder="End Time"
