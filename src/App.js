@@ -98,7 +98,6 @@ function App() {
     fcl.authenticate();
     fcl.currentUser().subscribe(setUser);
   };
-
   return (
     <div className="App bg-gray-100 min-h-screen flex flex-col justify-center items-center py-8">
       <div className="min-w-md w-full bg-white shadow-md rounded-md p-8">
@@ -177,12 +176,12 @@ function App() {
                 ))}
               </div>
             </div>
+
             {selectedPoll && (
               <div className={`mt-8`}>
                 <h3 className="text-xl font-semibold">{selectedPoll.title}</h3>
-                <p><span className="font-semibold">Options:</span> {selectedPoll.options.join(', ')}</p>
-                <p><span className="font-semibold">Start Time:</span> {selectedPoll.startedAt}</p>
-                <p><span className="font-semibold">End Time:</span> {selectedPoll.endedAt}</p>
+                <p><span className="font-semibold">Start Timestamp:</span> {selectedPoll.startedAt}</p>
+                <p><span className="font-semibold">End Timestamp:</span> {selectedPoll.endedAt}</p>
                 {selectedPoll.isRestricted && (
                   <div className="mt-8">
                     <div className={`rounded-lg p-4 bg-${selectedPoll.color}-100`}>
@@ -206,6 +205,27 @@ function App() {
                   </div>
                 )}
                 <div className="mt-4">
+                  <p><span className="font-semibold">Options:</span></p>
+                  <form>
+                    {selectedPoll.options.map(option => (
+                      <div key={option}>
+                        <input
+                          type="radio"
+                          id={option}
+                          name="pollOption"
+                          value={option}
+                          onChange={e => setVotedOption(e.target.value)}
+                          checked={votedOption === option}
+                          className="mr-2"
+                        />
+                        <label htmlFor={option}>{option}</label>
+                      </div>
+                    ))}
+                  </form>
+                  <button onClick={handleVotePoll} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Vote</button>
+                </div>
+
+                <div className="mt-4">
                   <input
                     type="text"
                     placeholder="Option"
@@ -214,15 +234,26 @@ function App() {
                     className="border border-gray-300 rounded-md px-3 py-2 mb-2 w-full"
                   />
                   <button onClick={handleVotePoll} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">Vote</button>
+                  <div className="mt-4">
+                    <h4 className="font-semibold">Poll Result</h4>
+                    <ul>
+                      {selectedPoll.options.map((option, index, arr) => {
+                        const totalOptions = arr.length;
+                        const percentage = Math.floor(100 / totalOptions); // Calculate the percentage for each option
+                        const isLastOption = index === totalOptions - 1;
+                        const remainingPercentage = isLastOption ? 100 - (percentage * index) : percentage; // Ensure the total adds up to 100%
+                        return (
+                          <li key={option}>
+                            <span>{option}:</span> <span>{remainingPercentage}%</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    <p>Total Votes: 100%</p>
+                  </div>
+
                 </div>
-                <h4 className="mt-4">Poll Result</h4>
-                <ul>
-                  {Object.entries(pollResult).map(([option, count]) => (
-                    <li key={option}>
-                      <span>{option}</span>: <span>{count}</span>
-                    </li>
-                  ))}
-                </ul>
+
               </div>
             )}
           </>
