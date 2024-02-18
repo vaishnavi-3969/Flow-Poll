@@ -8,6 +8,7 @@ import {
   getPollResult,
 } from './flow/scripts';
 import { createNewPoll, votePoll, addVoter } from './flow/transactions';
+import UnixTimestamp from './components/UnixTimestamp';
 // 0x2734e7cdf8a5b999
 fcl.config()
   .put("app.detail.title", "My Flow NFT DApp")
@@ -99,9 +100,8 @@ function App() {
     <div className="App">
       <h1>Voting App</h1>
       <h2>Current Address: {user && user.addr}</h2>
-
       {!user && <button onClick={logIn}>Login</button>}
-
+      <UnixTimestamp/>
       {user && (
         <div>
           <h3>Create New Poll</h3>
