@@ -101,129 +101,134 @@ function App() {
 
   return (
     <div className="App bg-gray-100 min-h-screen flex flex-col justify-center items-center py-8">
-    <div className="min-w-md w-full bg-white shadow-md rounded-md p-8">
-      <h2 className="text-2xl font-semibold mb-4">Current Address: {user && user.addr}</h2>
-      {!user && <button onClick={logIn} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</button>}
-      <UnixTimestamp />
-      {user && (
-        <>
-          <div className="mt-8">
-            <h3 className="text-xl font-semibold mb-4">Create New Poll</h3>
-            <input
-              type="text"
-              placeholder="Title"
-              value={newPollTitle}
-              onChange={e => setNewPollTitle(e.target.value)}
-              className="border border-gray-300 rounded-md px-3 py-2 mb-2 w-full"
-            />
-            <input
-              type="text"
-              placeholder="Options (comma-separated)"
-              value={newPollOptions}
-              onChange={e => setNewPollOptions(e.target.value)}
-              className="border border-gray-300 rounded-md px-3 py-2 mb-2 w-full"
-            />
-            <input
-              type="number"
-              placeholder="Start Time"
-              value={newPollStartedAt}
-              onChange={e => setNewPollStartedAt(e.target.value)}
-              className="border border-gray-300 rounded-md px-3 py-2 mb-2 w-full"
-            />
-            <input
-              type="number"
-              placeholder="End Time"
-              value={newPollEndedAt}
-              onChange={e => setNewPollEndedAt(e.target.value)}
-              className="border border-gray-300 rounded-md px-3 py-2 mb-2 w-full"
-            />
-            <label className="inline-flex items-center mb-4">
-              Restricted:
+      <div className="min-w-md w-full bg-white shadow-md rounded-md p-8">
+        <h2 className="text-2xl font-semibold mb-4">Current Address: {user && user.addr}</h2>
+        {!user &&
+          <button
+            onClick={logIn}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Login
+          </button>}
+        <UnixTimestamp />
+        {user && (
+          <>
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold mb-4">Create New Poll</h3>
               <input
-                type="checkbox"
-                checked={newPollRestricted}
-                onChange={e => setNewPollRestricted(e.target.checked)}
-                className="ml-2"
+                type="text"
+                placeholder="Title"
+                value={newPollTitle}
+                onChange={e => setNewPollTitle(e.target.value)}
+                className="border border-gray-300 rounded-md px-3 py-2 mb-2 w-full"
               />
-            </label>
-            <button onClick={handleCreateNewPoll} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full">Create Poll</button>
-          </div>
-          <div className="mt-8">
-            <h3 className="text-xl font-semibold mb-4">Polls</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {Array.isArray(polls) && polls.map(poll => (
-                <div key={poll.id} className="bg-white rounded-lg shadow-md p-6">
-                  <h4 className="text-lg font-semibold mb-2">{poll.title}</h4>
-                  <p className="mb-4">{poll.options.join(', ')}</p>
-                  <button onClick={() => setSelectedPoll(poll)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">View Details</button>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="mt-8">
-            <h3 className="text-xl font-semibold mb-4">Active Polls</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {Array.isArray(activePolls) && activePolls.map(poll => (
-                <div key={poll.id} className={`rounded-lg shadow-md p-6 bg-${poll.color}-100`}>
-                  <h4 className="text-lg font-semibold mb-2">{poll.title}</h4>
-                  <p className="mb-4">{poll.options.join(', ')}</p>
-                  <button onClick={() => setSelectedPoll(poll)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">View Details</button>
-                </div>
-              ))}
-            </div>
-          </div>
-          {selectedPoll && (
-            <div className={`mt-8`}>
-              <h3 className="text-xl font-semibold">{selectedPoll.title}</h3>
-              <p><span className="font-semibold">Options:</span> {selectedPoll.options.join(', ')}</p>
-              <p><span className="font-semibold">Start Time:</span> {selectedPoll.startedAt}</p>
-              <p><span className="font-semibold">End Time:</span> {selectedPoll.endedAt}</p>
-              {selectedPoll.isRestricted && (
-                <div className="mt-8">
-                  <div className={`rounded-lg p-4 bg-${selectedPoll.color}-100`}>
-                    <h3 className="text-xl font-semibold">{selectedPoll.title}</h3>
-                    <p><span className="font-semibold">Options:</span> {selectedPoll.options.join(', ')}</p>
-                    <p><span className="font-semibold">Start Time:</span> {selectedPoll.startedAt}</p>
-                    <p><span className="font-semibold">End Time:</span> {selectedPoll.endedAt}</p>
-                    {selectedPoll.isRestricted && (
-                      <div className="mt-4">
-                        <input
-                          type="text"
-                          placeholder="Allowed Voter Address"
-                          value={allowedVoter}
-                          onChange={e => setAllowedVoter(e.target.value)}
-                          className="border border-gray-300 rounded-md px-3 py-2 mb-2 focus:outline-none focus:border-blue-500 w-full"
-                        />
-                        <button onClick={handleAddAllowedVoter} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full">Add Allowed Voter</button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-              <div className="mt-4">
+              <input
+                type="text"
+                placeholder="Options (comma-separated)"
+                value={newPollOptions}
+                onChange={e => setNewPollOptions(e.target.value)}
+                className="border border-gray-300 rounded-md px-3 py-2 mb-2 w-full"
+              />
+              <input
+                type="number"
+                placeholder="Start Time"
+                value={newPollStartedAt}
+                onChange={e => setNewPollStartedAt(e.target.value)}
+                className="border border-gray-300 rounded-md px-3 py-2 mb-2 w-full"
+              />
+              <input
+                type="number"
+                placeholder="End Time"
+                value={newPollEndedAt}
+                onChange={e => setNewPollEndedAt(e.target.value)}
+                className="border border-gray-300 rounded-md px-3 py-2 mb-2 w-full"
+              />
+              <label className="inline-flex items-center mb-4">
+                Restricted:
                 <input
-                  type="text"
-                  placeholder="Option"
-                  value={votedOption}
-                  onChange={e => setVotedOption(e.target.value)}
-                  className="border border-gray-300 rounded-md px-3 py-2 mb-2 w-full"
+                  type="checkbox"
+                  checked={newPollRestricted}
+                  onChange={e => setNewPollRestricted(e.target.checked)}
+                  className="ml-2"
                 />
-                <button onClick={handleVotePoll} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">Vote</button>
-              </div>
-              <h4 className="mt-4">Poll Result</h4>
-              <ul>
-                {Object.entries(pollResult).map(([option, count]) => (
-                  <li key={option}>
-                    <span>{option}</span>: <span>{count}</span>
-                  </li>
-                ))}
-              </ul>
+              </label>
+              <button onClick={handleCreateNewPoll} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full">Create Poll</button>
             </div>
-          )}
-        </>
-      )}
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold mb-4">Polls</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {Array.isArray(polls) && polls.map(poll => (
+                  <div key={poll.id} className="bg-white rounded-lg shadow-md p-6">
+                    <h4 className="text-lg font-semibold mb-2">{poll.title}</h4>
+                    <p className="mb-4">{poll.options.join(', ')}</p>
+                    <button onClick={() => setSelectedPoll(poll)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">View Details</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold mb-4">Active Polls</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {Array.isArray(activePolls) && activePolls.map(poll => (
+                  <div key={poll.id} className={`rounded-lg shadow-md p-6 bg-${poll.color}-100`}>
+                    <h4 className="text-lg font-semibold mb-2">{poll.title}</h4>
+                    <p className="mb-4">{poll.options.join(', ')}</p>
+                    <button onClick={() => setSelectedPoll(poll)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">View Details</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {selectedPoll && (
+              <div className={`mt-8`}>
+                <h3 className="text-xl font-semibold">{selectedPoll.title}</h3>
+                <p><span className="font-semibold">Options:</span> {selectedPoll.options.join(', ')}</p>
+                <p><span className="font-semibold">Start Time:</span> {selectedPoll.startedAt}</p>
+                <p><span className="font-semibold">End Time:</span> {selectedPoll.endedAt}</p>
+                {selectedPoll.isRestricted && (
+                  <div className="mt-8">
+                    <div className={`rounded-lg p-4 bg-${selectedPoll.color}-100`}>
+                      <h3 className="text-xl font-semibold">{selectedPoll.title}</h3>
+                      <p><span className="font-semibold">Options:</span> {selectedPoll.options.join(', ')}</p>
+                      <p><span className="font-semibold">Start Time:</span> {selectedPoll.startedAt}</p>
+                      <p><span className="font-semibold">End Time:</span> {selectedPoll.endedAt}</p>
+                      {selectedPoll.isRestricted && (
+                        <div className="mt-4">
+                          <input
+                            type="text"
+                            placeholder="Allowed Voter Address"
+                            value={allowedVoter}
+                            onChange={e => setAllowedVoter(e.target.value)}
+                            className="border border-gray-300 rounded-md px-3 py-2 mb-2 focus:outline-none focus:border-blue-500 w-full"
+                          />
+                          <button onClick={handleAddAllowedVoter} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full">Add Allowed Voter</button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+                <div className="mt-4">
+                  <input
+                    type="text"
+                    placeholder="Option"
+                    value={votedOption}
+                    onChange={e => setVotedOption(e.target.value)}
+                    className="border border-gray-300 rounded-md px-3 py-2 mb-2 w-full"
+                  />
+                  <button onClick={handleVotePoll} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">Vote</button>
+                </div>
+                <h4 className="mt-4">Poll Result</h4>
+                <ul>
+                  {Object.entries(pollResult).map(([option, count]) => (
+                    <li key={option}>
+                      <span>{option}</span>: <span>{count}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
-  </div>
   );
 }
 
