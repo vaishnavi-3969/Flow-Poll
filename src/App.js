@@ -185,10 +185,10 @@ function App() {
                 {selectedPoll.isRestricted && (
                   <div className="mt-8">
                     <div className={`rounded-lg p-4 bg-${selectedPoll.color}-100`}>
-                      <h3 className="text-xl font-semibold">{selectedPoll.title}</h3>
+                      {/* <h3 className="text-xl font-semibold">{selectedPoll.title}</h3>
                       <p><span className="font-semibold">Options:</span> {selectedPoll.options.join(', ')}</p>
                       <p><span className="font-semibold">Start Time:</span> {selectedPoll.startedAt}</p>
-                      <p><span className="font-semibold">End Time:</span> {selectedPoll.endedAt}</p>
+                      <p><span className="font-semibold">End Time:</span> {selectedPoll.endedAt}</p> */}
                       {selectedPoll.isRestricted && (
                         <div className="mt-4">
                           <input
@@ -249,7 +249,7 @@ function App() {
                         );
                       })}
                     </ul>
-                    <p>Total Votes: 100%</p>
+                    {/* <p>Total Votes: 100%</p> */}
                   </div>
 
                 </div>
